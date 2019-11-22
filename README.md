@@ -38,7 +38,14 @@ The Fluvius Smart meter communicates via the 'P1 port' - Hardware: P1 port = ser
 
     **Second part** is relatif easy. We have to configure openhab to connect to the 'MQTT broker' and read the 'published' messages.
 
-### 1.2 References
+### 1.2 Files
+
+- [example of Fluvius P1 telegram + explanation](https://github.com/tribp/DSMR-Fluvius-MQTT-Openhab/blob/master/Doc/SM_raw%20%2B%20uitleg.docx)
+- [example of 'raw' Fluvius P1 telegram ](https://github.com/tribp/DSMR-Fluvius-MQTT-Openhab/blob/master/Doc/SM_raw.txt)
+- [DSMR 5 standard](https://github.com/tribp/DSMR-Fluvius-MQTT-Openhab/blob/master/Doc/Slimme_meter_15_a727fce1f1.pdf)
+- [e-Mucs speccification](https://github.com/tribp/DSMR-Fluvius-MQTT-Openhab/blob/master/Doc/e-MUCS_H_Ed_1_3.docx)
+
+### 1.3 References
 
 - [P1 Reader - (for Dutch Market)](https://github.com/Mosibi/p1-smartmeter)
 - [Tool for MQTT debugging ! Super Good !](http://mqtt-explorer.com/)
