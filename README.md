@@ -13,7 +13,7 @@ Fluvius Smart Meter:
 <img src="images/dockerVsVM.png" width="600px" >
 
 Openhab Dashboard:  
-<img src="images/openhab_dashboard.jpg" width="600px" >
+<img src="images/openhab_dashboard.jpg" width="400px" >
 
 ## 1. Context
 
