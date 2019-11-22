@@ -19,24 +19,30 @@ Openhab Dashboard:
 
 ### 1.1 Fluvius Smart Meter
 
-The Fluvius Smart meter communicates via the 'P1 port' - Hardware: P1 port = serial interface with RJ12 connector - Protocol: uses a combination of DSMR 5 standard + eMucs specification
+The Fluvius Smart meter communicates via the 'P1 port':
 
-**Problem:** - Hardware: P1 serial signal is 'Inverted'. Thus can not be conneted directly to a RS232 port of RaspberryPy or microcontroller (eg: ESP32, arduino etc). Extra hardware is needed to 're-Invert the signal !!  
- Solution = special cable (ref: ) which has a chip to re-invert while make USB signals
+    - Hardware: P1 port = serial interface with RJ12 connector
+    - Protocol: uses a combination of DSMR 5 standard + eMucs specification
 
-    - **Protocol:** The used protocol is a 'mix' of both specifications. As a result all nice 'Dutch' opensource solutions for reading the Smart meter don't work or only partially.
+**Problem:**
 
-    **Solution** = I merged both specifications into a new version of 'OBIS' object file in orde to be able to have the right 'OBIS' object model for the 'Fluvius P1 telegrams'. This does not solve the whole problem but is a important piece of it.
+    - Hardware: P1 serial signal is **'Inverted'**. Thus can not be connected directly to a RS232 port of RaspberryPy or microcontroller (eg: ESP32, arduino etc). Extra hardware is needed to 're-Invert the signal !!
 
-    - **Openhab:** The openhab DSMR 5 BINDING, this the openhab middelware to connect to the P1 port, also follows the DSMR 5 spec and can only read parts of the Fluvius telegrams.
+    Solution = special cable (ref: ) which has a chip to re-invert while make USB signals
 
-    **Solution:** The approach I took was to 'decouple' the problem via MQTT since rewriting a new openhab binding was no option.
+    - Protocol: The used protocol is a 'mix' of both specifications. As a result all nice 'Dutch' opensource solutions for reading the Smart meter don't work or only partially.
 
-    **First part** of the solution is, while adapting a existing opensource initiatif, a python app on a rasspberrypy that reads the telegram, converts it following the 'Fluvius OBIS' object model and than sending this readings over MQTT to a 'MQTT broker'.
+    Solution = I merged both specifications into a new version of 'OBIS' object file in orde to be able to have the right 'OBIS' object model for the 'Fluvius P1 telegrams'. This does not solve the whole problem but is a important piece of it.
 
-    **Optional** you can also run this python app as a Linux service, so it can nicely run in the background and will automatically start if Py is rebooted.
+    - Openhab: The openhab DSMR 5 BINDING, this the openhab middelware to connect to the P1 port, also follows the DSMR 5 spec and can only read parts of the Fluvius telegrams.
 
-    **Second part** is relatif easy. We have to configure openhab to connect to the 'MQTT broker' and read the 'published' messages.
+**Solution:** The approach I took was to 'decouple' the problem via MQTT since rewriting a new openhab binding was no option.
+
+**First part** of the solution is, while adapting a existing opensource initiatif, a python app on a rasspberrypy that reads the telegram, converts it following the 'Fluvius OBIS' object model and than sending this readings over MQTT to a 'MQTT broker'.
+
+**Optional** you can also run this python app as a Linux service, so it can nicely run in the background and will automatically start if Py is rebooted.
+
+**Second part** is relatif easy. We have to configure openhab to connect to the 'MQTT broker' and read the 'published' messages.
 
 ### 1.2 Files
 
@@ -47,7 +53,7 @@ The Fluvius Smart meter communicates via the 'P1 port' - Hardware: P1 port = ser
 
 ### 1.3 References
 
-- [P1 Reader - (for Dutch Market)](https://github.com/Mosibi/p1-smartmeter)
+- [P1 Reader - (for Dutch Market)](https://github.com/Mosibi/p1-smartmeter) -> Startpoint for this solution!
 - [Tool for MQTT debugging ! Super Good !](http://mqtt-explorer.com/)
 - [BK Hobby workshop for MQTT and Openhab](https://www.youtube.com/watch?v=f9DlvG3UQuQ) -> Pretty long but BK Hobby on youtube is excellent to start mastering openhab.
 
