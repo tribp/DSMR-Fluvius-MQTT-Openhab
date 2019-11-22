@@ -15,7 +15,7 @@ Fluvius Smart Meter:
 Openhab Dashboard:  
 <img src="images/openhab_dashboard.png" width="600px" >
 
-## 1 Context
+## 1. Context
 
 ### 1.1 Fluvius Smart Meter
 
@@ -32,13 +32,13 @@ The Fluvius Smart meter communicates via the 'P1 port':
 
     - Protocol: The used protocol is a 'mix' of both specifications. As a result all nice 'Dutch' opensource solutions for reading the Smart meter don't work or only partially.
 
-    Solution = I merged both specifications into a new version of 'OBIS' object file in orde to be able to have the right 'OBIS' object model for the 'Fluvius P1 telegrams'. This does not solve the whole problem but is a important piece of it.
+    Solution = I merged both specifications into a new version of 'OBIS' object file in order to be able to have the right 'OBIS' object model for the 'Fluvius P1 telegrams'. This does not solve the whole problem but is an important piece of it.
 
     - Openhab: The openhab DSMR 5 BINDING, this the openhab middelware to connect to the P1 port, also follows the DSMR 5 spec and can only read parts of the Fluvius telegrams.
 
 **Solution:** The approach I took was to 'decouple' the problem via MQTT since rewriting a new openhab binding was no option.
 
-**First part** of the solution is, while adapting a existing opensource initiatif, a python app on a rasspberrypy that reads the telegram, converts it following the 'Fluvius OBIS' object model and than sending this readings over MQTT to a 'MQTT broker'.
+**First part** of the solution is, while adapting an existing opensource initiatif (see ref), a python app on a rasspberrypy that reads the telegram, converts it following the 'Fluvius OBIS' object model and than sending this readings over MQTT to a 'MQTT broker'.
 
 **Optional** you can also run this python app as a Linux service, so it can nicely run in the background and will automatically start if Py is rebooted.
 
@@ -57,14 +57,14 @@ The Fluvius Smart meter communicates via the 'P1 port':
 - [Tool for MQTT debugging ! Super Good !](http://mqtt-explorer.com/)
 - [BK Hobby workshop for MQTT and Openhab](https://www.youtube.com/watch?v=f9DlvG3UQuQ) -> Pretty long but BK Hobby on youtube is excellent to start mastering openhab.
 
-## 2 Architecture
+## 2. Architecture
 
 Architecture:  
 <img src="images/dockerVsVM.png" width="600px" >
 
-## 3 P1 port reader Fluvius Smart Meter
+## 3. P1 port reader Fluvius Smart Meter
 
-intro: Starting point was the P1 reader for the Dutch market. This is a python app, with very clean code !, that reads the telegram, according the DSMR 5 OBIS object model in a 'yaml' file and then publishes the readings to a MQTT broker.
+**Intro:** Starting point was the P1 reader for the Dutch market. This is a python app, with very clean code !, that reads the telegram, according the DSMR 5 OBIS object model in a 'yaml' file and then publishes the readings to a MQTT broker.
 
 What we changed: - OBIS object model according to the Fluvius specifications. - additional 'debug' feature for reading from file
 
@@ -111,13 +111,17 @@ python3 p1_fluvius_smartmeter.py
 
 See also
 
-## 4 MQTT
+## 4. MQTT
 
 ### 4.1 Intro
 
+### 4.2 MQTT tools
+
+<img src="images/mqtt_explorer.png" width="600px" >
+
 ### 4.2 Broker Options
 
-## 5 Openhab
+## 5. Openhab
 
 ### 5.1 intro
 
