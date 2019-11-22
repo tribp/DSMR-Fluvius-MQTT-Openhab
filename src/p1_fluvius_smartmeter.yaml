@@ -1,0 +1,152 @@
+---
+debug: False
+mqtt_username: 'p1'
+mqtt_password: 'password'
+mqtt_host: '192.168.2.200'
+mqtt_topic_base: 'Home/SmartMeter'
+serial_device: '/dev/ttyUSB0'
+serial_baudrate: 115200
+obis:
+  0-1:24.1.0:
+    description: 'Number of devices on the M-Bus'
+    publish: False
+    mqtt_topic: 'notset'
+  0-1:96.1.1:
+    description: 'Fluvius Gasmeter identifier'
+    publish: False
+    mqtt_topic: 'notset'
+  0-1:24.4.0:
+    description: 'Fluvius Gasmeter afsluitstatus'
+    publish: False
+    mqtt_topic: 'notset'
+  0-1:24.2.3:
+    description: 'Fluvius Gasmeter data in m3'
+    publish: True
+    count: 60
+    mqtt_topic: 'gasmeter'
+    value_field: 2
+  0-0:96.1.4:
+    description: 'Fluvius Version information for P1 output'
+    publish: False
+    mqtt_topic: 'notset'
+  0-0:1.0.0:
+    description: 'Date-timestamp of the P1 message'
+    publish: False
+    mqtt_topic: 'notset'
+  0-0:96.1.1:
+    description: 'Equipment identifier'
+    publish: False
+    mqtt_topic: 'notset'
+  1-0:1.8.1:
+    description: 'Meter Reading electricity delivered to client (Tariff Night) in 0,001 kWh'
+    publish: True
+    count: 60
+    mqtt_topic: 'night_used_kWh'
+  1-0:1.8.2:
+    description: 'Meter Reading electricity delivered to client (Tariff Day) in 0,001 kWh'
+    publish: True
+    count: 60
+    mqtt_topic: 'day_used_kWh'
+  1-0:2.8.1:
+    description: 'Meter Reading electricity delivered by client (Tariff Night) in 0,001 kWh'
+    publish: True
+    count: 60
+    mqtt_topic: 'night_returned_kWh'
+  1-0:2.8.2:
+    description: 'Meter Reading electricity delivered by client (Tariff Day) in 0,001 kWh'
+    publish: True
+    count: 60
+    mqtt_topic: 'day_returned_kWh'
+  0-0:96.14.0:
+    description: 'Tariff indicator electricity'
+    publish: False
+    mqtt_topic: 'notset'
+  1-0:1.7.0:
+    description: 'Actual electricity power delivered (+P) in 1 Watt resolution'
+    publish: True
+    average: 10
+    mqtt_topic: 'actual_power_used_watt'
+  1-0:2.7.0:
+    description: 'Actual electricity power received (-P) in 1 Watt resolution'
+    publish: True
+    average: 10
+    mqtt_topic: 'actual_power_returned_watt'
+  0-0:96.13.0:
+    description: 'Text message max 1024 characters.'
+    publish: False
+    mqtt_topic: 'notset'
+  1-0:32.7.0:
+    description: 'Actual voltage L1 in V'
+    publish: True
+    average: 10
+    mqtt_topic: 'actual_voltage_l1'
+  1-0:52.7.0:
+    description: 'Actual voltage L2 in V'
+    publish: False
+    average: 60
+    mqtt_topic: 'actual_voltage_l2'
+  1-0:72.7.0:
+    description: 'Actual voltage L3 in V'
+    publish: False
+    average: 60
+    mqtt_topic: 'actual_voltage_l3'
+  1-0:31.7.0:
+    description: 'Actual current L1 in A'
+    publish: True
+    average: 10
+    mqtt_topic: 'actual_amperage_l1'
+  1-0:51.7.0:
+    description: 'Actual current L2 in A'
+    publish: False
+    average: 60
+    mqtt_topic: 'actual_amperage_l2'
+  1-0:71.7.0:
+    description: 'Actual current L3 in A'
+    publish: False
+    average: 60
+    mqtt_topic: 'actual_amperage_l3'
+  1-0:21.7.0:
+    description: 'Actual active power L1 (+P) in W'
+    publish: False
+    average: 10
+    mqtt_topic: 'actual_power_used_l1'
+  1-0:41.7.0:
+    description: 'Actual active power L2 (+P) in W'
+    publish: False
+    average: 10
+    mqtt_topic: 'actual_power_used_l2'
+  1-0:61.7.0:
+    description: 'Actual active power L3 (+P) in W'
+    publish: False
+    average: 10
+    mqtt_topic: 'actual_power_used_l3'
+  1-0:22.7.0:
+    description: 'Actual active power injected L1 (-P) in W'
+    publish: False
+    average: 10
+    mqtt_topic: 'actual_power_injected_l1'
+  1-0:42.7.0:
+    description: 'Actual active power injected L2 (-P) in W'
+    publish: False
+    average: 10
+    mqtt_topic: 'actual_power_injected_l2'
+  1-0:62.7.0:
+    description: 'Actual active power injected L3 (-P) in W'
+    publish: False
+    average: 10
+    mqtt_topic: 'actual_power_injected_l3'
+  0-0:96.3.10:
+    description: 'Fluvius E-Braker state'
+    publish: False
+    average: 10
+    mqtt_topic: 'e-braker_state'
+  0-0:17.0.0:
+    description: 'Fluvius E-Limiter Threshold in kW'
+    publish: False
+    average: 10
+    mqtt_topic: 'e_limiter_threshold'
+  1-0:31.4.0:
+    description: 'Fluvius E-Fuse Supervision Threshold in A'
+    publish: False
+    average: 10
+    mqtt_topic: 'e_fuse_supervision_threshold'
