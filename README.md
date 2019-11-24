@@ -218,7 +218,7 @@ Therefore we will 'install' and use the MQQT binding in Openhab.
 
 Configure the broker with IP address and standard port 1883.
 
-** Do not add any channels on broker, this will be done on meter !!!**
+**Do not add any channels on broker, this will be done on smart meter 'Thing' !**
 
 <img src="images/MQTT_Broker_Config.png" width="300px" >
 
@@ -234,8 +234,12 @@ Add all the channels you want, available from the meter. (See also the OBIS obje
 
 ### 5.3 Items
 
+We will define all 'items' in the [Emeter.items](https://github.com/tribp/DSMR-Fluvius-MQTT-Openhab/blob/master/Openhab/Emeter.items) file.
+
 ### 5.4 Openhab UI
+
+We will define all dashboard in the [Grid.sitemap](https://github.com/tribp/DSMR-Fluvius-MQTT-Openhab/blob/master/Openhab/grid.sitemap) file.
 
 ## 6. Connecting to AWS
 
-Todo: d
+Todo: document
