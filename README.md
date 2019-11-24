@@ -180,11 +180,11 @@ sudo service p1_fluvius_smartmeter status
 
 ### 4.1 Intro
 
-MQTT is a very leightweight 'Pub-Sub' mechanism. First you have a 'broker', this is a server, that is the centre of the architecture. Secondly you have 'clients' that 'publish' (Pub), 'subscribes'(Sub) or both to certain 'Topics'. Topics can be seen a classic 'radio channels', like '/Home/Grid/Voltage' or '/Home/Solar/Current'. A smart weter will 'Publish' on '/Home/Grid/Voltage' the values and a client (eg Openhab Dashboard) can 'subscribe' to the channel in order to receive those values and show them on the dashboard or take some action.
+MQTT is a very leightweight 'Pub-Sub' mechanism. First you have a 'broker', this is a server, that is the centre of the architecture. Secondly you have 'clients' that 'publish' (Pub), 'subscribes'(Sub) or both to certain 'Topics'. Topics can be seen a classic 'radio channels', like '/Home/Grid/Voltage' or '/Home/Solar/Current'. A smart meter will 'Publish' on '/Home/Grid/Voltage' the values and a client (eg Openhab Dashboard) can 'subscribe' to the channel in order to receive those values and show them on the dashboard or take some action.
 
 ### 4.2 MQTT tools
 
-'MQTT.fx' is a very usefull tool but 'MQTT explorer' is even beter. It shows all available topics, the payload details, history etc.
+'MQTT.fx' is a very usefull tool but 'MQTT explorer' is even beter. It shows all available topics, the payload details, history etc. this makes it the ideal tool for development or debugging.
 
 <img src="images/mqtt_explorer.png" width="600px" >
 
@@ -202,19 +202,23 @@ Therefore we will 'install' and use the MQQT binding in Openhab.
 
 **Install MQTT binding**
 
-<img src="images/MQTT_Binding.png" width="200px" >
+<img src="images/MQTT_Binding.png" width="300px" >
 
-Configure the broker with IP address and standard port 1883. ** Do not add any channels on broker, this will be done on meter !!!**
+Configure the broker with IP address and standard port 1883.
 
-<img src="images/MQTT_Broker_Config.png" width="200px" >
+** Do not add any channels on broker, this will be done on meter !!!**
+
+<img src="images/MQTT_Broker_Config.png" width="300px" >
 
 ### 5.2 Smart meter 'Thing' and channels
 
 **Important:** We will now add a thing 'Fluvius Slimme Meter' and add many 'channels'. Each channel will represent a parameter of the smart meter: 'Actual Voltange', 'current', etc
 
-<img src="images/Thing_MQTT_SM.png" width="200px" >
+<img src="images/Thing_MQTT_SM.png" width="400px" >
 
-Add all the channels you want, available from the meter. (See also the OBIS object) <img src="images/Thing_MQTT_Channels.png" width="200px" >
+Add all the channels you want, available from the meter. (See also the OBIS object)
+
+<img src="images/Thing_MQTT_Channels.png" width="400px" >
 
 ### 5.3 Items
 
