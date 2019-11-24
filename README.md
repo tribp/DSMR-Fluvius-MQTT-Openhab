@@ -31,23 +31,23 @@ The Fluvius Smart meter communicates via the 'P1 port':
 
 **Problem:**
 
-    - Hardware: P1 serial signal is **'Inverted'**. Thus can not be connected directly to a RS232 port of RaspberryPy or microcontroller (eg: ESP32, arduino etc). Extra hardware is needed to 're-Invert the signal !!
+    - Hardware: P1 serial signal is **'Inverted'**. Thus can not be connected directly to a RS232 port of RaspberryPi or microcontroller (eg: ESP32, arduino etc). Extra hardware is needed to 're-Invert the signal !!
 
-    Solution = special cable (ref: ) which has a chip to re-invert while make USB signals
+    Solution = special cable (see 3.1 ) which has a chip to re-invert while making USB signals
 
     - Protocol: The used protocol is a 'mix' of both specifications. As a result all nice 'Dutch' opensource solutions for reading the Smart meter don't work or only partially.
 
     Solution = I merged both specifications into a new version of 'OBIS' object file in order to be able to have the right 'OBIS' object model for the 'Fluvius P1 telegrams'. This does not solve the whole problem but is an important piece of it.
 
-    - Openhab: The openhab DSMR 5 BINDING, this the openhab middelware to connect to the P1 port, also follows the DSMR 5 spec and can only read parts of the Fluvius telegrams.
+    - Openhab: The openhab DSMR 5 BINDING, this is the openhab middelware to connect to the P1 port, also follows the DSMR 5 spec and can only read parts of the Fluvius telegrams.
 
 **Solution:** The approach I took was to 'decouple' the problem via MQTT since rewriting a new openhab binding was no option.
 
 **First part** of the solution is, while adapting an existing opensource initiatif (see ref), a python app on a rasspberrypy that reads the telegram, converts it following the 'Fluvius OBIS' object model and than sending this readings over MQTT to a 'MQTT broker'.
 
-**Optional** you can also run this python app as a Linux service, so it can nicely run in the background and will automatically start if Py is rebooted.
+**Optional** you can also run this python app as a Linux service, so it can nicely run in the background and will automatically start if Pi is rebooted.
 
-**Second part** is relatif easy. We have to configure openhab to connect to the 'MQTT broker' and read the 'published' messages.
+**Second part** is relatively easy. We have to configure openhab to connect to the 'MQTT broker' and read the 'published' messages.
 
 ### 1.2 Files
 
@@ -71,7 +71,10 @@ Architecture:
 
 **Intro:** Starting point was the P1 reader for the Dutch market. This is a python app, with very clean code !, that reads the telegram, according the DSMR 5 OBIS object model in a 'yaml' file and then publishes the readings to a MQTT broker.
 
-What we changed: - OBIS object model according to the Fluvius specifications. - additional 'debug' feature for reading from file
+What we changed:
+
+    - OBIS object model according to the Fluvius specifications.
+    - additional 'debug' feature for reading from file
 
 **Remark:**
 
@@ -84,7 +87,7 @@ I also tried to bundle it into a docker container but finally did not because:
 
 ```
 
-- 'systemctl': When turning a app into a service we need 'systemctl' , as part of systemd. I read that it is possible but not recommended since it is a part of the Linux kernel and is therefore deliberately not made avilable in containres.
+- 'systemctl': When turning a app into a service we need 'systemctl' , as part of systemd. I read that it is possible but not recommended since it is a part of the Linux kernel and is therefore deliberately not made avilable in containers.
 
 ### 3.1 Testing your Serial Port
 
@@ -145,7 +148,7 @@ python3 p1_fluvius_smartmeter.py
 
 ### 3.4 How to install the python app as a Linux service
 
-Th installation procedure is identical as in the origanal version op the 'p1-meter' of [Mosibi](https://github.com/Mosibi/p1-smartmeter). First we need to install the Python dependencies, next we install it as a service.
+Th installation procedure is identical as in the origanal version of the 'p1-meter' of [Mosibi](https://github.com/Mosibi/p1-smartmeter). First we need to install the Python dependencies, next we install it as a service.
 
 ```
 # Install the Python app as a Linux service
@@ -155,6 +158,8 @@ git clone https://github.com/tribp/DSMR-Fluvius-MQTT-Openhab.git
 $ vi p1_smartmeter.yaml             -> change IP of your MQTT Broker + user/passwd
 $ sudo make install                 -> Install it as service (see ho in Makefile)
 ```
+
+**Tip:** use 'scp' (= secure copy within SSH) to transfer your file from your laptop to the Pi. This is not needed if you directly clone the repo onto your Pi!
 
 ```
 scp /Users/tribp/Library/Mobile\ Documents/com\~apple\~CloudDocs/Data/R\&D/GitHub_Projects/Public\ Repos/DSMR-Fluvius-MQTT-Openhab/Makefile pi@192.168.2.150:~/p1-smartmeter
@@ -175,17 +180,41 @@ sudo service p1_fluvius_smartmeter status
 
 ### 4.1 Intro
 
+MQTT is a very leightweight 'Pub-Sub' mechanism. First you have a 'broker', this is a server, that is the centre of the architecture. Secondly you have 'clients' that 'publish' (Pub), 'subscribes'(Sub) or both to certain 'Topics'. Topics can be seen a classic 'radio channels', like '/Home/Grid/Voltage' or '/Home/Solar/Current'. A smart weter will 'Publish' on '/Home/Grid/Voltage' the values and a client (eg Openhab Dashboard) can 'subscribe' to the channel in order to receive those values and show them on the dashboard or take some action.
+
 ### 4.2 MQTT tools
+
+'MQTT.fx' is a very usefull tool but 'MQTT explorer' is even beter. It shows all available topics, the payload details, history etc.
 
 <img src="images/mqtt_explorer.png" width="600px" >
 
 ### 4.2 Broker Options
 
+Here you have endless options: your home NAS, a broker within Openhab, a broker on your Raspberry, directly or in a Docker container or ...
+
 ## 5. Openhab
 
 ### 5.1 intro
 
+As mentioned before, the existing DSMR 5 binding in openhab is designed for the Dutch P1 telegrams but not for the Fluvius telegrams in Flanders.
+
+Therefore we will 'install' and use the MQQT binding in Openhab.
+
+**Install MQTT binding**
+
+<img src="images/MQTT_Binding.png" width="200px" >
+
+Configure the broker with IP address and standard port 1883. ** Do not add any channels on broker, this will be done on meter !!!**
+
+<img src="images/MQTT_Broker_Config.png" width="200px" >
+
 ### 5.2 Smart meter 'Thing' and channels
+
+**Important:** We will now add a thing 'Fluvius Slimme Meter' and add many 'channels'. Each channel will represent a parameter of the smart meter: 'Actual Voltange', 'current', etc
+
+<img src="images/Thing_MQTT_SM.png" width="200px" >
+
+Add all the channels you want, available from the meter. (See also the OBIS object) <img src="images/Thing_MQTT_Channels.png" width="200px" >
 
 ### 5.3 Items
 
