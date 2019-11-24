@@ -231,7 +231,7 @@ def main():
     # Main
     ###
     # configfile = "/usr/local/etc/p1_smartmeter.yaml"
-    configfile = "p1_fluvius_smartmeter.yaml"
+    configfile = "/usr/local/etc/p1_fluvius_smartmeter.yaml"
     config = read_config(configfile)
 
     global debug

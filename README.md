@@ -9,10 +9,15 @@
     5. Connecting to Openhab
     6. Connecting to AWS
 
-Fluvius Smart Meter:  
-<img src="images/dockerVsVM.png" width="600px" >
+Remark: This repo is mainly base on a existing solution for the Dutch market by [Mosibi](https://github.com/Mosibi/p1-smartmeter). This in order to make it work for the DSMR meter of Fluvius, used in the Flanders region.
 
-Openhab Dashboard:  
+**Changes:**
+
+    - OBIS object in the YAML file.
+    - can read a file with a telegram for test purposes.
+
+**Openhab Dashboard:**
+
 <img src="images/openhab_dashboard.jpg" width="300px" >
 
 ## 1. Context
@@ -60,7 +65,7 @@ The Fluvius Smart meter communicates via the 'P1 port':
 ## 2. Architecture
 
 Architecture:  
-<img src="images/dockerVsVM.png" width="600px" >
+<img src="images/Architecture.png" width="600px" >
 
 ## 3. P1 port reader Fluvius Smart Meter
 
@@ -81,11 +86,34 @@ I also tried to bundle it into a docker container but finally did not because:
 
 - 'systemctl': When turning a app into a service we need 'systemctl' , as part of systemd. I read that it is possible but not recommended since it is a part of the Linux kernel and is therefore deliberately not made avilable in containres.
 
-### 3.1 How to install or run the Python app
+### 3.1 Testing your Serial Port
 
-**First:**
+First install the cable between the P1 port and the USB of your raspberry
+
+Next: normally your (default) serial port will be 'ttyUSB0'. Issue the command and you should see the telegram messages on your screen.
+
+```
+
+cat /dev/ttyUSB0
+```
+
+<img src="images/USB2serial.jpeg" width="200px" >
+
+### 3.2 Install all Python dependencies + config in YAML file
+
+**Python libraries**
 
 - install Python3
+
+```
+# Install the required Python Libraries used in the program
+
+sudo apt-get install python3-serial python3-pip python3-yaml
+sudo pip3 install paho-mqtt
+```
+
+**Config of MQTT broker + desired P1 available parameters**
+
 - edit 'p1_fluvius_smarmeter.yaml'
 
 ```
@@ -101,15 +129,47 @@ I also tried to bundle it into a docker container but finally did not because:
 
 PS: settings in 'yaml' file in src is for a standard monofase Fluvius E-meter + Gas-meter and reads most important parameters in telegram.
 
+### 3.3 How to install or run the Python app
+
+You can run it locally, as described below, but running it as a 'Linux service' is prefered ! (see 3.4)
+
+Running it locally might be good to test, debug and or read a file with a 'test' telegram and thus no need for using the serial port.
+
 **Run it**
 
 ```
+# Remark: Edit 'p1_fluvius_smartmeter.py' to point to the correct location of the 'p1_fluvius_smartmeter.yaml' file
+
 python3 p1_fluvius_smartmeter.py
 ```
 
-### 3.2 How to install the python app as a Linux service
+### 3.4 How to install the python app as a Linux service
 
-See also
+Th installation procedure is identical as in the origanal version op the 'p1-meter' of [Mosibi](https://github.com/Mosibi/p1-smartmeter). First we need to install the Python dependencies, next we install it as a service.
+
+```
+# Install the Python app as a Linux service
+# Do git clone .. or copy the Make file + put app and yaml file in 'src subdirectory'
+
+git clone https://github.com/tribp/DSMR-Fluvius-MQTT-Openhab.git
+$ vi p1_smartmeter.yaml             -> change IP of your MQTT Broker + user/passwd
+$ sudo make install                 -> Install it as service (see ho in Makefile)
+```
+
+```
+scp /Users/tribp/Library/Mobile\ Documents/com\~apple\~CloudDocs/Data/R\&D/GitHub_Projects/Public\ Repos/DSMR-Fluvius-MQTT-Openhab/Makefile pi@192.168.2.150:~/p1-smartmeter
+
+scp /Users/tribp/Library/Mobile\ Documents/com\~apple\~CloudDocs/Data/R\&D/GitHub_Projects/Public\ Repos/DSMR-Fluvius-MQTT-Openhab/src/* pi@192.168.2.150:~/p1-smartmeter/src
+```
+
+**Start the service**
+
+```
+sudo systemctl start p1_fluvius_smartmeter.service
+
+# Check if service is running
+sudo service p1_fluvius_smartmeter status
+```
 
 ## 4. MQTT
 
