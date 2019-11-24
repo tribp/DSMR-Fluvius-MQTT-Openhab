@@ -1,0 +1,14 @@
+Number Day_Period "Chart Period"
+Number Solar_AC_Current "Solar AC Current [%.2f %unit%]" <poweroutlet> {channel="modbus:data:79086d3a:number"}
+Number Solar_AC_Power "Solar Power" <energy> {channel="modbus:data:180a932d:number"}
+Number Solar_kWh_At_Midnight "Solar kWh at midnight"
+Number Solar_kWh_Today "Solar kWh Today [%.3f %unit%]" <sun>
+Number Solar_kWh_SinceStart "Solar kWh All-times [%.2f %unit%]" <battery> {channel="modbus:data:051fe812:number"}
+DateTime Date "Date [%1$tA, %1$td.%1$tm.%1$tY %1$tH:%1$tM]" {channel="ntp:ntp:local:dateTime"}
+Number:Dimensionless CurrentCloudiness "Cloudiness" <sun_clouds> {channel="openweathermap:weather-and-forecast:81fd256f:local:current#cloudiness"}
+Number:Dimensionless ForecastHours03Cloudiness "Forecasted cloudiness" <sun_clouds> {channel="openweathermap:weather-and-forecast:81fd256f:local:forecastHours03#cloudiness"}
+Number:Dimensionless ForecastHours06Cloudiness "Forecasted cloudiness" <sun_clouds> {channel="openweathermap:weather-and-forecast:81fd256f:local:forecastHours06#cloudiness"}
+DateTime ZonsOpgang "ZonsOpgang" {channel="astro:sun:local:rise#start"}
+DateTime ZonsOndergang "ZonsOndergang" {channel="astro:sun:local:set#start"}
+
+

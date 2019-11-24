@@ -9,7 +9,7 @@
     5. Connecting to Openhab
     6. Connecting to AWS
 
-Remark: This repo is mainly base on a existing solution for the Dutch market by [Mosibi](https://github.com/Mosibi/p1-smartmeter). This in order to make it work for the DSMR meter of Fluvius, used in the Flanders region.
+**Remark:** This repo is mainly based on an existing solution for the Dutch market by [Mosibi](https://github.com/Mosibi/p1-smartmeter). We adapted it in order to make it work for the DSMR meter of Fluvius, used in the Flanders region.
 
 **Changes:**
 
@@ -185,8 +185,12 @@ sudo service p1_fluvius_smartmeter status
 
 ### 5.1 intro
 
-### 5.2 MQTT broker
+### 5.2 Smart meter 'Thing' and channels
 
-### 5.3 MQTT Thing + channels
+### 5.3 Items
 
 ### 5.4 Openhab UI
+
+## 6. Connecting to AWS
+
+Todo: d

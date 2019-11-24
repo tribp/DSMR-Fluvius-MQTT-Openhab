@@ -1,0 +1,35 @@
+sitemap solar label="Solar Dashboard" {
+    Frame label="Date" {
+        Text item=Date
+    }
+    Frame label=Solar {
+        Text item=Solar_AC_Current label="Solar AC Current [%.2f A]"
+        Text item=Solar_AC_Power label="Solar AC Power [%.2f W]"
+        Text item=Solar_kWh_Today label="Solar Energy Today [%.2f kWh]"
+        Text item=Solar_kWh_SinceStart label="Solar Energy All Times [%.0f kWh]"
+    }
+    Frame label=Zon {
+        Text item=ZonsOpgang label="Zonsopgang [%1$tI:%1$tM %1$Tp]"
+        Text item=ZonsOndergang label="ZonsOndergang [%1$tI:%1$tM %1$Tp]"
+    }
+    Frame label=Weather {
+        Text item=CurrentCloudiness label="Cloudiness Now"
+        Text item=ForecastHours03Cloudiness label="Cloudiness in 3h"
+        Text item=ForecastHours06Cloudiness label="Cloudiness in 6h"
+    }
+    Frame {
+		Switch item=Day_Period label="Real-time Power" mappings=[0="Day", 1="Week", 2="Month", 3="Year"]
+		Chart item=Solar_AC_Power period=D refresh=10000 visibility=[Day_Period==0]
+		Chart item=Solar_AC_Power period=W refresh=10000 visibility=[Day_Period==1]
+		Chart item=Solar_AC_Power period=M refresh=10000 visibility=[Day_Period==2]
+		Chart item=Solar_AC_Power period=Y refresh=10000 visibility=[Day_Period==3]
+	}
+    Frame {
+		Switch item=Day_Period label="kWh Today" mappings=[0="Day", 1="Week", 2="Month", 3="Year"]
+		Chart item=Solar_kWh_Today period=D refresh=10000 visibility=[Day_Period==0]
+		Chart item=Solar_kWh_Today period=W refresh=10000 visibility=[Day_Period==1]
+		Chart item=Solar_kWh_Today period=M refresh=10000 visibility=[Day_Period==2]
+		Chart item=Solar_kWh_Today period=Y refresh=10000 visibility=[Day_Period==3]
+	}
+    
+}

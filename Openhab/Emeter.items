@@ -1,0 +1,12 @@
+Number Gasmeter "Gasmeter [%.2f m3]" <gas> {channel="mqtt:topic:3f7b4694:gasmeter"}
+Number Gas_m3_At_Midnight "Gas m3 at midnight"
+Number Gas_m3_Today "Gas m3 comsuption Today" <radiator>
+Number:Energy TotalKwhDayUsed "Total kWh dag afname" <energy> {channel="mqtt:topic:3f7b4694:total_kwh_day_used"}
+Number:Energy TotalKwhNightUsed "Total kWh nacht afname" <energy> {channel="mqtt:topic:3f7b4694:total_kwh_night_used"}
+Number:Energy TotalKwhDayReturned "Total kWh dag injectie" <sun> {channel="mqtt:topic:3f7b4694:total_kwh_day_returned"}
+Number:Energy TotalKwhNightReturned "Total kWh nacht injectie" <sun> {channel="mqtt:topic:3f7b4694:total_kwh_night_returned"}
+Number:Energy TotalKwhNetto "Total kWh from Grid" <house>
+Number:Power ActualPowerUsed "Actual power used" <poweroutlet> {channel="mqtt:topic:3f7b4694:actual_power_used"}
+Number:Power ActualPowerReturned "Actual power returned" <battery>{channel="mqtt:topic:3f7b4694:actual_power_returned"}
+Number ActualVoltage "Ac voltage" <poweroutlet> {channel="mqtt:topic:3f7b4694:actual_voltage"}
+Number ActualCurrent "Ac current" <poweroutlet> {channel="mqtt:topic:3f7b4694:actual_current"}

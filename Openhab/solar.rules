@@ -1,0 +1,46 @@
+var counter = 0
+var totalkWhNetto = 0
+var gasToday = 0
+
+rule "Reset Daily kWh counter at midnight"
+when 
+    Time cron "0 1 0 1/1 * ? *"
+then 
+    var newkWhStart = Solar_kWh_SinceStart.state as Number
+    Solar_kWh_At_Midnight.postUpdate(newkWhStart)
+    logInfo("Status", "Daily kWh counter is set to zero")
+
+    var newGasStart = Gasmeter.state as Number 
+    Gas_m3_At_Midnight.postUpdate(newGasStart)
+    logInfo("Status", "Daily Gas m3 counter is set to zero")
+end
+
+rule "Calculate Daily kWh and m3"
+when 
+    Item Solar_kWh_SinceStart received update or Time cron "0 0/15 * 1/1 * ? *"
+then
+
+    if ((Solar_kWh_SinceStart.state != Null) && (Solar_kWh_At_Midnight.state != Null)) {
+        var kWhToday = (Solar_kWh_SinceStart.state as Number) - (Solar_kWh_At_Midnight.state as Number)
+        Solar_kWh_Today.postUpdate(kWhToday)
+        logInfo("Status", "Daily kWh update")
+    }
+
+    if ((Gas_m3_At_Midnight.state != Null) && (Gasmeter.state != Null)){
+        var gasToday = (Gasmeter.state as Number) - (Gas_m3_At_Midnight.state as Number)
+        Gas_m3_Today.postUpdate(gasToday)
+        logInfo("Status", "Daily Gas m3 update")
+    }
+    
+end 
+
+rule "Calculate Netto kWh from Grid"
+when 
+    Time cron "0 0/1 * 1/1 * ? *"
+then
+    totalkWhNetto = (TotalKwhDayUsed.state as Number + TotalKwhNightUsed.state as Number)-(TotalKwhDayReturned.state as Number + TotalKwhNightReturned.state as Number)
+    logInfo("test","TotalkWDayUsed test =" + totalkWhNetto)
+    TotalKwhNetto.postUpdate(totalkWhNetto)
+
+end
+

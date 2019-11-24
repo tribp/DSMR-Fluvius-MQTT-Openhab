@@ -1,0 +1,23 @@
+sitemap grid label="Grid Dashboard" {
+    Frame label="Date" {
+        Text item=Date
+    }
+    Frame label="Grid Actual" {
+        Text item=ActualVoltage label="Grid AC Voltage [%.2f V]"
+        Text item=ActualCurrent label="Grid AC Current [%.2f A]"
+        Text item=ActualPowerUsed label="Actual Power from Grid [%.2f W]"
+        Text item=ActualPowerReturned label="Actual Power Injected [%.2f W]"
+    }
+    Frame label="Energy Production" {
+        Text item=TotalKwhDayUsed label="Total kWh afname Dag [%.2f kWh]"
+        Text item=TotalKwhNightUsed label="Total kWh afname Nacht [%.2f kWh]"
+        Text item=TotalKwhDayReturned label="Total kWh injectie Dag [%.2f kWh]"
+        Text item=TotalKwhNightReturned label="Total kWh injectie Nacht [%.2f kWh]"
+        Text item=TotalKwhNetto label="Grand Total kWh Grid [%.2f kWh]"
+    }
+    Frame label= "Gas Verbruik" {
+        Text item=Gasmeter label="Afname m3 Gas[%.2f m3]"
+        Text item=Gas_m3_Today label="Gas m3 Today [%.2f m3]"
+    }
+    
+}
