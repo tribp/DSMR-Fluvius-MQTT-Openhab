@@ -194,6 +194,18 @@ Here you have endless options: your home NAS, a broker within Openhab, a broker 
 
 ## 5. Openhab
 
+```
+Things          -> eg: Smart Meter itself
+channel         -> parameter of a things (eg: Volt, current, kWH injected,,..)
+item            -> 'state' of a channel (eg: Volt= 232,4V)
+rule            -> actions for automatioen: when .... then ....
+persistence     -> data repository: InfluxDB, MongoDB, AWS DynamoDB,....
+sitemaps        -> Dashboards
+
+```
+
+<img src="images/openhab_overview.png" width="600px" >
+
 ### 5.1 intro
 
 As mentioned before, the existing DSMR 5 binding in openhab is designed for the Dutch P1 telegrams but not for the Fluvius telegrams in Flanders.
