@@ -18,7 +18,7 @@
 
 **Openhab Dashboard:**
 
-<img src="images/openhab_dashboard.jpg" width="300px" >
+<img src="images/openhab_dashboard_iphone.jpg" width="300px" >
 
 ## 1. Context
 
@@ -43,7 +43,7 @@ The Fluvius Smart meter communicates via the 'P1 port':
 
 **Solution:** The approach I took was to 'decouple' the problem via MQTT since rewriting a new openhab binding was no option.
 
-**First part** of the solution is, while adapting an existing opensource initiatif (see ref), a python app on a rasspberrypy that reads the telegram, converts it following the 'Fluvius OBIS' object model and than sending this readings over MQTT to a 'MQTT broker'.
+**First part** of the solution is, while adapting an existing opensource initiatif (see ref), a python app on a rasspberrypy that reads the telegram, converts it following the 'Fluvius OBIS' object model and then sending this readings over MQTT to a 'MQTT broker'.
 
 **Optional** you can also run this python app as a Linux service, so it can nicely run in the background and will automatically start if Pi is rebooted.
 
@@ -180,7 +180,7 @@ sudo service p1_fluvius_smartmeter status
 
 ### 4.1 Intro
 
-MQTT is a very leightweight 'Pub-Sub' mechanism. First you have a 'broker', this is a server, that is the centre of the architecture. Secondly you have 'clients' that 'publish' (Pub), 'subscribes'(Sub) or both to certain 'Topics'. Topics can be seen a classic 'radio channels', like '/Home/Grid/Voltage' or '/Home/Solar/Current'. A smart meter will 'Publish' on '/Home/Grid/Voltage' the values and a client (eg Openhab Dashboard) can 'subscribe' to the channel in order to receive those values and show them on the dashboard or take some action.
+MQTT is a very leightweight 'Pub-Sub' mechanism. First you have a 'broker', this is a server, that is the centre of the architecture. Secondly you have 'clients' that 'publish' (Pub), 'subscrib'(Sub) or both to certain 'Topics'. Topics can be seen a classic 'radio channels', like '/Home/Grid/Voltage' or '/Home/Solar/Current'. A smart meter will 'Publish' on '/Home/Grid/Voltage' the values and a client (eg Openhab Dashboard) can 'subscribe' to the channel in order to receive those values and show them on the dashboard or take some action.
 
 ### 4.2 MQTT tools
 
@@ -192,13 +192,13 @@ MQTT is a very leightweight 'Pub-Sub' mechanism. First you have a 'broker', this
 
 Here you have endless options: your home NAS, a broker within Openhab, a broker on your Raspberry, directly or in a Docker container or ...
 
-## 5. Openhab
+## 5. Connecting to Openhab
 
 ```
 Things          -> eg: Smart Meter itself
-channel         -> parameter of a things (eg: Volt, current, kWH injected,,..)
+channel         -> parameter of a 'thing' (eg: Volt, current, kWH injected,,..)
 item            -> 'state' of a channel (eg: Volt= 232,4V)
-rule            -> actions for automatioen: when .... then ....
+rule            -> actions for automation: when .... then ....
 persistence     -> data repository: InfluxDB, MongoDB, AWS DynamoDB,....
 sitemaps        -> Dashboards
 
