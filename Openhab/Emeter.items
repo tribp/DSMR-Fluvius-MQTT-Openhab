@@ -1,4 +1,4 @@
-Number Gasmeter "Gasmeter [%.2f m3]" <gas> {channel="mqtt:topic:3f7b4694:gasmeter"}
+Number Gasmeter "Gasmeter [%.2f m3]" <gas> {channel="mqtt:topic:adcd6263:gasmeter"}
 Number Gas_m3_At_Midnight "Gas m3 at midnight"
 Number Gas_m3_Today "Gas m3 comsuption Today" <radiator>
 Number:Energy TotalKwhDayUsed "Total kWh dag afname" <energy> {channel="mqtt:topic:3f7b4694:total_kwh_day_used"}

@@ -102,6 +102,11 @@ cat /dev/ttyUSB0
 
 <img src="images/USB2serial.jpeg" width="200px" >
 
+# Ordering:
+
+- [SOS Solutions - 19.95 euro - Delivery < 1 week ](https://www.sossolutions.nl/slimme-meter-kabel?gclid=EAIaIQobChMIsYaFuc_b5wIVl813Ch0FeA33EAQYAiABEgIyNfD_BwE)
+- [AliExpress - 6 \$ - Delivery < 5 weeks ](https://nl.aliexpress.com/item/32945225256.html?spm=a2g0s.9042311.0.0.18364c4dAUCcEE)
+
 ### 3.2 Install all Python dependencies + config in YAML file
 
 **Python libraries**
