@@ -29,21 +29,19 @@ The Fluvius Smart meter communicates via the 'P1 port':
     - Hardware: P1 port = serial interface with RJ12 connector
     - Protocol: uses a combination of DSMR 5 standard + eMucs specification
 
-**Problem:**
+#### Problem:
 
-    - Hardware: P1 serial signal is **'Inverted'**. Thus can not be connected directly to a RS232 port of RaspberryPi or microcontroller (eg: ESP32, arduino etc). Extra hardware is needed to 're-Invert the signal !!
+- **Hardware:** P1 serial signal is **'Inverted'**. Thus can not be connected directly to a RS232 port of RaspberryPi or microcontroller (eg: ESP32, arduino etc). Extra hardware is needed to re-invert the signal !!
+    - **Solution:** special cable (see 3.1 ) which has a chip to re-invert while making USB signals
+- **Protocol:** The used protocol is a 'mix' of both specifications. As a result all nice 'Dutch' opensource solutions for reading the Smart meter don't work or only partially.
+    - **Solution:** I merged both specifications into a new version of 'OBIS' object file in order to be able to have the right 'OBIS' object model for the 'Fluvius P1 telegrams'. This does not solve the whole problem but is an important piece of it.
+- **Openhab:** The openhab DSMR 5 BINDING, this is the openhab middelware to connect to the P1 port, also follows the DSMR 5 spec and can only read parts of the Fluvius telegrams.
 
-    Solution = special cable (see 3.1 ) which has a chip to re-invert while making USB signals
+#### Solution: 
 
-    - Protocol: The used protocol is a 'mix' of both specifications. As a result all nice 'Dutch' opensource solutions for reading the Smart meter don't work or only partially.
+The approach I took was to 'decouple' the problem via MQTT since rewriting a new openhab binding was no option.
 
-    Solution = I merged both specifications into a new version of 'OBIS' object file in order to be able to have the right 'OBIS' object model for the 'Fluvius P1 telegrams'. This does not solve the whole problem but is an important piece of it.
-
-    - Openhab: The openhab DSMR 5 BINDING, this is the openhab middelware to connect to the P1 port, also follows the DSMR 5 spec and can only read parts of the Fluvius telegrams.
-
-**Solution:** The approach I took was to 'decouple' the problem via MQTT since rewriting a new openhab binding was no option.
-
-**First part** of the solution is, while adapting an existing opensource initiatif (see ref), a python app on a rasspberrypy that reads the telegram, converts it following the 'Fluvius OBIS' object model and then sending this readings over MQTT to a 'MQTT broker'.
+**First part** of the solution is, while adapting an existing opensource initiative (see ref), a python app on a raspberrypi that reads the telegram, converts it following the 'Fluvius OBIS' object model and then sending this readings over MQTT to a 'MQTT broker'.
 
 **Optional** you can also run this python app as a Linux service, so it can nicely run in the background and will automatically start if Pi is rebooted.
 
@@ -84,10 +82,9 @@ I also tried to bundle it into a docker container but finally did not because:
 
 ```
 # You need '-v /dev/ttyUSB0:/dev/ttyUSB0' to map your HW port into a container: eg ttyUSB0
-
 ```
 
-- 'systemctl': When turning a app into a service we need 'systemctl' , as part of systemd. I read that it is possible but not recommended since it is a part of the Linux kernel and is therefore deliberately not made avilable in containers.
+- `systemctl`: When turning a app into a service we need `systemctl`, as part of `systemd`. I read that it is possible but not recommended since it is a part of the Linux kernel and is therefore deliberately not made avilable in containers.
 
 ### 3.1 Testing your Serial Port
 
@@ -96,7 +93,6 @@ First install the cable between the P1 port and the USB of your raspberry
 Next: normally your (default) serial port will be 'ttyUSB0'. Issue the command and you should see the telegram messages on your screen.
 
 ```
-
 cat /dev/ttyUSB0
 ```
 
@@ -122,7 +118,7 @@ sudo pip3 install paho-mqtt
 
 **Config of MQTT broker + desired P1 available parameters**
 
-- edit 'p1_fluvius_smarmeter.yaml'
+- edit `p1_fluvius_smarmeter.yaml`
 
 ```
         mqtt_username: 'p1'                 -> optional - depends only needed if set at broker
@@ -133,7 +129,7 @@ sudo pip3 install paho-mqtt
         serial_baudrate: 115200             -> needed
 ```
 
-- edit 'p1_fluvius_smartmeter.yaml: set per OBIS parameter if 'Publish=True/False' and time interval
+- edit `p1_fluvius_smartmeter.yaml`: set per OBIS parameter if `Publish=True|False` and time interval
 
 PS: settings in 'yaml' file in src is for a standard monofase Fluvius E-meter + Gas-meter and reads most important parameters in telegram.
 
@@ -164,7 +160,7 @@ $ vi p1_smartmeter.yaml             -> change IP of your MQTT Broker + user/pass
 $ sudo make install                 -> Install it as service (see ho in Makefile)
 ```
 
-**Tip:** use 'scp' (= secure copy within SSH) to transfer your file from your laptop to the Pi. This is not needed if you directly clone the repo onto your Pi!
+**Tip:** use `scp` (= secure copy within SSH) to transfer your file from your laptop to the Pi. This is not needed if you directly clone the repo onto your Pi!
 
 ```
 scp /Users/tribp/Library/Mobile\ Documents/com\~apple\~CloudDocs/Data/R\&D/GitHub_Projects/Public\ Repos/DSMR-Fluvius-MQTT-Openhab/Makefile pi@192.168.2.150:~/p1-smartmeter
@@ -185,11 +181,11 @@ sudo service p1_fluvius_smartmeter status
 
 ### 4.1 Intro
 
-MQTT is a very leightweight 'Pub-Sub' mechanism. First you have a 'broker', this is a server, that is the centre of the architecture. Secondly you have 'clients' that 'publish' (Pub), 'subscribe'(Sub) or both to certain 'Topics'. Topics can be seen a classic 'radio channels', like '/Home/Grid/Voltage' or '/Home/Solar/Current'. A smart meter will 'Publish' on '/Home/Grid/Voltage' the values and a client (eg Openhab Dashboard) can 'subscribe' to the channel in order to receive those values and show them on the dashboard or take some action.
+MQTT is a very leightweight 'Pub-Sub' mechanism. First you have a 'broker', this is a server, that is the centre of the architecture. Secondly you have 'clients' that 'publish' (Pub), 'subscribe' (Sub) or both to certain 'Topics'. Topics can be seen a classic 'radio channels', like '/Home/Grid/Voltage' or '/Home/Solar/Current'. A smart meter will 'Publish' on '/Home/Grid/Voltage' the values and a client (eg Openhab Dashboard) can 'subscribe' to the channel in order to receive those values and show them on the dashboard or take some action.
 
 ### 4.2 MQTT tools
 
-'MQTT.fx' is a very usefull tool but 'MQTT explorer' is even beter. It shows all available topics, the payload details, history etc. this makes it the ideal tool for development or debugging.
+[MQTT.fx](https://mqttfx.jensd.de/) is a very usefull tool but [MQTT explorer](http://mqtt-explorer.com/) is even beter. It shows all available topics, the payload details, history etc. this makes it the ideal tool for development or debugging.
 
 <img src="images/mqtt_explorer.png" width="600px" >
 
