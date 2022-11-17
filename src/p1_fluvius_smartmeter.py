@@ -219,7 +219,7 @@ def publish_message(mqttc, mqtt_path, msg):
 def read_config(configfile):
     try:
         with open(configfile, "r") as ymlfile:
-            cfg = yaml.load(ymlfile)
+            cfg = yaml.load(ymlfile, Loader=yaml.Loader)
     except Exception as err:
         error_msg("could not open/read config file {}: {}".format(configfile, err))
 
